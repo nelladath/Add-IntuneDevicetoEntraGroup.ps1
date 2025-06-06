@@ -2,10 +2,13 @@
 ##########################################################################
 
 #Add-IntuneDevicetoEntraGroup.ps1
-#Author : Sujin Nelladath
+#Author: Sujin Nelladath
 #LinkedIn : https://www.linkedin.com/in/sujin-nelladath-8911968a/
 
 ############################################################################
+#Set-ExecutionPolicy
+
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 #Connect to Microsoft Graph
 Connect-Graph -Scopes "GroupMember.ReadWrite.All", "Device.ReadWrite.All" 
@@ -15,21 +18,23 @@ Connect-Graph -Scopes "GroupMember.ReadWrite.All", "Device.ReadWrite.All"
 $GraphBaseURL = "https://graph.microsoft.com/v1.0"
 
 # Function to get Group ID by name
-function Get-GroupID {
-    param ($GroupName)
-    $GroupURL = "$GraphBaseURL/groups?`$filter=displayName eq '$GroupName'"
-    $Group = Invoke-MgGraphRequest -Uri $GroupURL -Method GET 
-    return $Group.value[0].id
-    
-}
+function Get-GroupID 
+    {
+        param ($GroupName)
+        $GroupURL = "$GraphBaseURL/groups?`$filter=displayName eq '$GroupName'"
+        $Group = Invoke-MgGraphRequest -Uri $GroupURL -Method GET 
+        return $Group.value[0].id
+        
+    }
 
 # Function to get Device ID by name
-function Get-DeviceID {
-    param ($DeviceName)
-    $DeviceURL = "$GraphBaseURL/devices?`$filter=displayName eq '$DeviceName'"
-    $Device = Invoke-MgGraphRequest -Uri $DeviceURL -Method GET
-    return $Device.value[0].id
-}
+function Get-DeviceID 
+    {
+        param ($DeviceName)
+        $DeviceURL = "$GraphBaseURL/devices?`$filter=displayName eq '$DeviceName'"
+        $Device = Invoke-MgGraphRequest -Uri $DeviceURL -Method GET
+        return $Device.value[0].id
+    }
 
 # Prompt user for Group Name
 $GroupName = Read-Host "Enter Intune group name"
